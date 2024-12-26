@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
     private val scheduleList = mutableListOf<Schedule>() // 일정 리스트
     private lateinit var scheduleAdapter: ScheduleAdapter
 
-    private lateinit var addScheduleButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +24,6 @@ class MainActivity : AppCompatActivity() {
         // UI 초기화
         calendarView = findViewById(R.id.calendarView)
         scheduleRecyclerView = findViewById(R.id.scheduleRecyclerView)
-
-        addScheduleButton = findViewById(R.id.addScheduleButton)
 
         // RecyclerView 설정
         scheduleAdapter = ScheduleAdapter(scheduleList)
@@ -51,14 +48,13 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "선택한 날짜: $selectedDate", Toast.LENGTH_SHORT).show()
         }
 
-        // 버튼 클릭 리스너 설정
+        // 일정 추가 버튼 클릭 시 AddScheduleActivity로 이동
+        val addScheduleButton: Button = findViewById(R.id.addScheduleButton)
         addScheduleButton.setOnClickListener {
-            // 일정 추가 페이지로 이동
             val intent = Intent(this, AddScheduleActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, 1) // 요청 코드 1
         }
     }
-
     // 선택한 날짜의 일정 필터링
     private fun filterSchedulesByDate(selectedDate: String) {
         // 일정 리스트에서 선택된 날짜와 일치하는 일정만 필터링
@@ -74,17 +70,17 @@ class MainActivity : AppCompatActivity() {
         scheduleAdapter.updateSchedules(filteredSchedules)
     }
 
-    // AddScheduleActivity에서 데이터를 받아오는 메소드
+    // AddScheduleActivity에서 돌아왔을 때
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == RESULT_OK && data != null) {
-            // 새로운 일정 객체 받기
-            val newSchedule = data.getParcelableExtra<Schedule>("newSchedule")
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // 새로 추가된 일정 가져오기
+            val newSchedule: Schedule? = data?.getParcelableExtra("newSchedule")
             newSchedule?.let {
-                // 새 일정을 RecyclerView에 추가
-                // scheduleAdapter.addSchedule(it) 또는 scheduleList에 추가 후 업데이트
+                // 새 일정 추가
                 scheduleList.add(it)
+                // RecyclerView 업데이트
                 scheduleAdapter.notifyDataSetChanged()
             }
         }

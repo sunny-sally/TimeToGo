@@ -40,14 +40,13 @@ class AddScheduleActivity : AppCompatActivity() {
 
         // 일정 저장 버튼 클릭 이벤트
         saveButton.setOnClickListener {
-            val time = timeEditText.text.toString()
             val location = locationEditText.text.toString()
             val transport = transportSpinner.selectedItem.toString()  // 선택한 이동수단 가져오기
             val date = "${datePicker.year}-${datePicker.month + 1}-${datePicker.dayOfMonth}"  // 선택한 날짜 가져오기
             val selectedTime = "${timePicker.hour}:${timePicker.minute}"  // 선택한 시간 가져오기
 
             // 입력된 정보가 모두 채워졌는지 확인
-            if (time.isNotEmpty() && location.isNotEmpty()) {
+            if (selectedTime.isNotEmpty() && location.isNotEmpty()) {
                 // 새로운 일정 객체 생성
                 val newSchedule = Schedule(
                     date = date,
