@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingStart="32dp"
+    android:padding="8dp"
+    android:gravity="start"
+    android:weightSum="4">
+
+    <!-- 시간 -->
+    <TextView
+        android:id="@+id/scheduleTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="시간"
+        android:textSize="16sp"
+        android:layout_weight="1"/>
+
+    <!-- 장소 -->
+    <TextView
+        android:id="@+id/scheduleLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="장소"
+        android:textSize="16sp"
+        android:layout_weight="1"/>
+
+    <!-- 이동수단 -->
+    <TextView
+        android:id="@+id/scheduleTransport"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="이동수단"
+        android:textSize="16sp"
+        android:layout_weight="1"/>
+
+    <!-- 출발시간 -->
+    <TextView
+        android:id="@+id/scheduleDepartureTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="출발시간"
+        android:textSize="16sp"
+        android:layout_weight="1"/>
+
+</LinearLayout>
+
