@@ -3,15 +3,14 @@ package com.example.timetogo
 import android.os.Parcel
 import android.os.Parcelable
 
-class Schedule(
-    val date: String,          // 날짜 (yyyy-MM-dd)
-    val time: String,          // 시간 (HH:mm)
-    val location: String,      // 장소
-    val transport: String,     // 이동수단
-    val duration: String,      // 예상 소요시간
-    val departureTime: String  // 출발 시간
+data class Schedule(
+    val date: String,
+    val time: String,
+    val location: String,
+    val transport: String,
+    val duration: String,
+    val departureTime: String
 ) : Parcelable {
-
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",

@@ -13,8 +13,9 @@
         android:theme="@style/Theme.TimeToGo"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity2"
-            android:exported="false" />
+            android:name=".AddScheduleActivity">
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

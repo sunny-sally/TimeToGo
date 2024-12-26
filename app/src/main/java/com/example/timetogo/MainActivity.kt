@@ -51,10 +51,11 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "선택한 날짜: $selectedDate", Toast.LENGTH_SHORT).show()
         }
 
-        // 일정 추가 버튼 클릭 시 AddScheduleActivity로 이동
+        // 버튼 클릭 리스너 설정
         addScheduleButton.setOnClickListener {
+            // 일정 추가 페이지로 이동
             val intent = Intent(this, AddScheduleActivity::class.java)
-            startActivityForResult(intent, 100)
+            startActivity(intent)
         }
     }
 
@@ -77,8 +78,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 100 && resultCode == RESULT_OK) {
-            val newSchedule = data?.getSerializableExtra("newSchedule") as? Schedule
+        if (resultCode == RESULT_OK && data != null) {
+            // 새로운 일정 객체 받기
+            val newSchedule = data.getParcelableExtra<Schedule>("newSchedule")
             newSchedule?.let {
                 // 새 일정을 RecyclerView에 추가
                 // scheduleAdapter.addSchedule(it) 또는 scheduleList에 추가 후 업데이트
