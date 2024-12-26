@@ -1,6 +1,8 @@
 package com.example.timetogo
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.CalendarView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     private val scheduleList = mutableListOf<Schedule>() // 일정 리스트
     private lateinit var scheduleAdapter: ScheduleAdapter
 
+    private lateinit var addScheduleButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         // UI 초기화
         calendarView = findViewById(R.id.calendarView)
         scheduleRecyclerView = findViewById(R.id.scheduleRecyclerView)
+
+        addScheduleButton = findViewById(R.id.addScheduleButton)
 
         // RecyclerView 설정
         scheduleAdapter = ScheduleAdapter(scheduleList)
@@ -44,6 +50,12 @@ class MainActivity : AppCompatActivity() {
             // 선택한 날짜를 Toast로 출력
             Toast.makeText(this, "선택한 날짜: $selectedDate", Toast.LENGTH_SHORT).show()
         }
+
+        // 일정 추가 버튼 클릭 시 AddScheduleActivity로 이동
+        addScheduleButton.setOnClickListener {
+            val intent = Intent(this, AddScheduleActivity::class.java)
+            startActivityForResult(intent, 100)
+        }
     }
 
     // 선택한 날짜의 일정 필터링
@@ -61,6 +73,20 @@ class MainActivity : AppCompatActivity() {
         scheduleAdapter.updateSchedules(filteredSchedules)
     }
 
+    // AddScheduleActivity에서 데이터를 받아오는 메소드
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            val newSchedule = data?.getSerializableExtra("newSchedule") as? Schedule
+            newSchedule?.let {
+                // 새 일정을 RecyclerView에 추가
+                // scheduleAdapter.addSchedule(it) 또는 scheduleList에 추가 후 업데이트
+                scheduleList.add(it)
+                scheduleAdapter.notifyDataSetChanged()
+            }
+        }
+    }
 }
 
 
